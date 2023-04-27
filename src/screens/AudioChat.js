@@ -135,109 +135,52 @@ const AudioChat = ({ navigation, route }) => {
                 </Text>
               </View>
             </View>
-            <Text
-              numberOfLines={2}
-              style={[styles.topCardText, { marginLeft: 20 }]}
-            >
-              {roomData?.description}
-            </Text>
           </View>
-            <FlatList
-              data={dataList}
-              numColumns={4}
-              renderItem={({ item }) => (
-                <View style={styles.callImageContainer}>
-                  <Image
-                    source={item.img}
-                    style={[
-                      styles.callImage,
-                      {
-                        borderColor: !micDisable ? "#FFE75C" : "#fff",
-                        borderWidth: 1,
-                      },
-                    ]}
-                  />
-                  <TouchableOpacity
-                    disabled={item.iconOn === "microphone-slash" ? true : false}
-                    style={[
-                      styles.imageAddContainer,
-                      {
-                        backgroundColor:
-                          item.iconOn === "microphone-slash"
-                            ? COLORS.black
-                            : COLORS.purple,
-                      },
-                    ]}
-                    onPress={() => setMicDisable(!micDisable)}
-                  >
-                    <FontAwesome5
-                      name={item.iconOn}
-                      size={10}
-                      color={COLORS.white}
-                    />
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
-          <View style={{ flexDirection: "row" }}>
-            <View
-              style={[
-                styles.bottmLineContainer,
-                { backgroundColor: COLORS.lightGray },
-              ]}
-            />
-            <View style={styles.bottmLineContainer} />
-          </View>
-          <Text style={styles.comments}>Comments</Text>
-          <LinearGradient
-            style={styles.linearGradient}
-            colors={[COLORS.skyBlue, COLORS.navyBlue]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-
+          <Text
+            numberOfLines={2}
+            style={[styles.topCardText, { marginLeft: 20 }]}
           >
             {roomData?.description}
           </Text>
         </View>
-        <View style={styles.callContainer}>
-          <FlatList
-            data={dataList}
-            numColumns={4}
-            renderItem={({ item }) => (
-              <View style={styles.callImageContainer}>
-                <Image
-                  source={item.img}
-                  style={[
-                    styles.callImage,
-                    {
-                      borderColor: !micDisable ? "#FFE75C" : "#fff",
-                      borderWidth: 1,
-                    },
-                  ]}
+        {/* <View style={styles.callContainer}> */}
+        <FlatList
+          style={styles.callContainer}
+          data={dataList}
+          numColumns={4}
+          renderItem={({ item }) => (
+            <View style={styles.callImageContainer}>
+              <Image
+                source={item.img}
+                style={[
+                  styles.callImage,
+                  {
+                    borderColor: !micDisable ? "#FFE75C" : "#fff",
+                    borderWidth: 1,
+                  },
+                ]}
+              />
+              <View
+                style={[
+                  styles.imageAddContainer,
+                  {
+                    backgroundColor:
+                      item.iconOn === "microphone-slash"
+                        ? COLORS.black
+                        : COLORS.purple,
+                  },
+                ]}
+              >
+                <FontAwesome5
+                  name={item.iconOn}
+                  size={10}
+                  color={COLORS.white}
                 />
-                <TouchableOpacity
-                  disabled={item.iconOn === "microphone-slash" ? true : false}
-                  style={[
-                    styles.imageAddContainer,
-                    {
-                      backgroundColor:
-                        item.iconOn === "microphone-slash"
-                          ? COLORS.black
-                          : COLORS.purple,
-                    },
-                  ]}
-                  onPress={() => setMicDisable(!micDisable)}
-                >
-                  <FontAwesome5
-                    name={item.iconOn}
-                    size={10}
-                    color={COLORS.white}
-                  />
-                </TouchableOpacity>
               </View>
-            )}
-          />
-        </View>
+            </View>
+          )}
+        />
+        {/* </View> */}
         <View style={{ flexDirection: "row" }}>
           <View
             style={[
@@ -247,6 +190,7 @@ const AudioChat = ({ navigation, route }) => {
           />
           <View style={styles.bottmLineContainer} />
         </View>
+        
         <Text style={styles.comments}>Comments</Text>
         <LinearGradient
           style={styles.linearGradient}
@@ -261,7 +205,7 @@ const AudioChat = ({ navigation, route }) => {
               <View style={styles.bottomCardInnarContainer}>
                 <Image
                   source={{ uri: item?.user?.profile_image }}
-                  style={[styles.bottomCardImage, { borderWidth: 2, borderRadius: 50 }]}
+                  style={[styles.bottomCardImage, { borderWidth: 2 }]}
                 />
                 <View>
                   <Text style={styles.bottomCardText}>
@@ -281,7 +225,7 @@ const AudioChat = ({ navigation, route }) => {
               placeholderTextColor={COLORS.darkGray}
               placeholder={"Type something..."}
             />
-            <TouchableOpacity disabled={message <= 0} onPress={() => onSend()} style={[styles.button, { backgroundColor: message <= 0 ? COLORS.black : COLORS.skyBlue }]}>
+            <TouchableOpacity onPress={() => onSend()} style={styles.button}>
               <Text style={styles.sendbutton}>Send</Text>
             </TouchableOpacity>
           </View>
@@ -426,6 +370,7 @@ const styles = StyleSheet.create({
     height: hp(24),
     borderRadius: 12,
     paddingBottom: 15,
+    
   },
   bottomCardInnarContainer: {
     flexDirection: "row",
