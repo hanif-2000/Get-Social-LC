@@ -112,28 +112,27 @@ const AudioChat = ({ navigation, route }) => {
   return (
     <MainContainer Style={{ paddingHorizontal: 0 }}>
       <ScrollView contentContainerStyle={styles.innarMainContainer}>
-          <View style={styles.lineContainer} />
-          <View style={styles.topCardContainer}>
-            <View style={styles.topCardInnarContainer}>
-              <Image
-                source={{ uri: userDetails?.profile_image }}
-                style={styles.topCardImage}
-              />
-              <View>
-                <Text style={styles.topCardText}>{roomData?.name}</Text>
-                <Text style={styles.topCardText}>{userDetails?.full_name}</Text>
+        <View style={styles.lineContainer} />
+        <View style={styles.topCardContainer}>
+          <View style={styles.topCardInnarContainer}>
+            <Image
+              source={{ uri: userDetails?.profile_image }}
+              style={styles.topCardImage}
+            />
+            <View>
+              <Text style={styles.topCardText}>{roomData?.name}</Text>
+              <Text style={styles.topCardText}>{userDetails?.full_name}</Text>
+            </View>
+            <View style={styles.numberMainContainer}>
+              <View style={styles.numberLeftContainer}>
+                <Text style={{ color: "#fff", fontSize: SIZE.XS }}>
+                  {roomData?.active_count_particpant}
+                </Text>
               </View>
-              <View style={styles.numberMainContainer}>
-                <View style={styles.numberLeftContainer}>
-                  <Text style={{ color: "#fff", fontSize: SIZE.XS }}>
-                    {roomData?.active_count_particpant}
-                  </Text>
-                </View>
-                <View style={styles.numberRightContainer}>
-                  <Text style={{ color: COLORS.black, fontSize: SIZE.XS }}>
-                    {roomData?.count_particpant}
-                  </Text>
-                </View>
+              <View style={styles.numberRightContainer}>
+                <Text style={{ color: COLORS.black, fontSize: SIZE.XS }}>
+                  {roomData?.count_particpant}
+                </Text>
               </View>
             </View>
             <Text
@@ -195,60 +194,119 @@ const AudioChat = ({ navigation, route }) => {
             colors={[COLORS.skyBlue, COLORS.navyBlue]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
+
           >
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={messages}
-              renderItem={({ item }) => (
-                <View style={styles.bottomCardInnarContainer}>
-                  <Image
-                    source={{ uri: item?.user?.profile_image }}
-                    style={[styles.bottomCardImage, { borderWidth: 2 }]}
+            {roomData?.description}
+          </Text>
+        </View>
+        <View style={styles.callContainer}>
+          <FlatList
+            data={dataList}
+            numColumns={4}
+            renderItem={({ item }) => (
+              <View style={styles.callImageContainer}>
+                <Image
+                  source={item.img}
+                  style={[
+                    styles.callImage,
+                    {
+                      borderColor: !micDisable ? "#FFE75C" : "#fff",
+                      borderWidth: 1,
+                    },
+                  ]}
+                />
+                <TouchableOpacity
+                  disabled={item.iconOn === "microphone-slash" ? true : false}
+                  style={[
+                    styles.imageAddContainer,
+                    {
+                      backgroundColor:
+                        item.iconOn === "microphone-slash"
+                          ? COLORS.black
+                          : COLORS.purple,
+                    },
+                  ]}
+                  onPress={() => setMicDisable(!micDisable)}
+                >
+                  <FontAwesome5
+                    name={item.iconOn}
+                    size={10}
+                    color={COLORS.white}
                   />
-                  <View>
-                    <Text style={styles.bottomCardText}>
-                      {item?.user?.full_name}
-                    </Text>
-                    <Text style={[styles.bottomCardText, { fontSize: SIZE.S }]}>
-                      {item?.content}
-                    </Text>
-                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View
+            style={[
+              styles.bottmLineContainer,
+              { backgroundColor: COLORS.lightGray },
+            ]}
+          />
+          <View style={styles.bottmLineContainer} />
+        </View>
+        <Text style={styles.comments}>Comments</Text>
+        <LinearGradient
+          style={styles.linearGradient}
+          colors={[COLORS.skyBlue, COLORS.navyBlue]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={messages}
+            renderItem={({ item }) => (
+              <View style={styles.bottomCardInnarContainer}>
+                <Image
+                  source={{ uri: item?.user?.profile_image }}
+                  style={[styles.bottomCardImage, { borderWidth: 2, borderRadius: 50 }]}
+                />
+                <View>
+                  <Text style={styles.bottomCardText}>
+                    {item?.user?.full_name}
+                  </Text>
+                  <Text style={[styles.bottomCardText, { fontSize: SIZE.S }]}>
+                    {item?.content}
+                  </Text>
                 </View>
-              )}
+              </View>
+            )}
+          />
+          <View style={styles.InputstyleContainer}>
+            <TextInput
+              onChangeText={(t) => SetMessage(t)}
+              style={styles.input}
+              placeholderTextColor={COLORS.darkGray}
+              placeholder={"Type something..."}
             />
-            <View style={styles.InputstyleContainer}>
-              <TextInput
-                onChangeText={(t) => SetMessage(t)}
-                style={styles.input}
-                placeholderTextColor={COLORS.darkGray}
-                placeholder={"Type something..."}
-              />
-              <TouchableOpacity onPress={() => onSend()} style={styles.button}>
-                <Text style={styles.sendbutton}>Send</Text>
-              </TouchableOpacity>
-            </View>
-          </LinearGradient>
-          <View style={styles.bottomContainer}>
-            <TouchableOpacity
-              style={styles.leaveContainer}
-              onPress={() => navigation.navigate("MyTabs")}
-            >
-              <Text style={styles.leaveText}>Leave</Text>
+            <TouchableOpacity disabled={message <= 0} onPress={() => onSend()} style={[styles.button, { backgroundColor: message <= 0 ? COLORS.black : COLORS.skyBlue }]}>
+              <Text style={styles.sendbutton}>Send</Text>
             </TouchableOpacity>
-            <Pressable
-              style={[
-                styles.microphoneContainer,
-                { backgroundColor: micDisable ? COLORS.black : COLORS.purple },
-              ]}
-              onPress={() => setMicDisable(!micDisable)}
-            >
-              <FontAwesome5
-                name={micDisable ? "microphone-alt-slash" : "microphone-alt"}
-                size={20}
-                color={COLORS.white}
-              />
-            </Pressable>
           </View>
+        </LinearGradient>
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity
+            style={styles.leaveContainer}
+            onPress={() => navigation.navigate("MyTabs")}
+          >
+            <Text style={styles.leaveText}>Leave</Text>
+          </TouchableOpacity>
+          <Pressable
+            style={[
+              styles.microphoneContainer,
+              { backgroundColor: micDisable ? COLORS.black : COLORS.purple },
+            ]}
+            onPress={() => setMicDisable(!micDisable)}
+          >
+            <FontAwesome5
+              name={micDisable ? "microphone-alt-slash" : "microphone-alt"}
+              size={20}
+              color={COLORS.white}
+            />
+          </Pressable>
+        </View>
         <Spinner
           color={COLORS.purple}
           visible={loading}
