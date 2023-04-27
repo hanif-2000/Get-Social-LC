@@ -143,7 +143,6 @@ const AudioChat = ({ navigation, route }) => {
               {roomData?.description}
             </Text>
           </View>
-          {/* <View style={styles.callContainer}> */}
             <FlatList
               data={dataList}
               numColumns={4}
@@ -181,7 +180,6 @@ const AudioChat = ({ navigation, route }) => {
                 </View>
               )}
             />
-          {/* </View> */}
           <View style={{ flexDirection: "row" }}>
             <View
               style={[
