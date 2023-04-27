@@ -10,43 +10,44 @@ import useAppData, { useStore } from '../store';
 import { AddBiography } from '../utils/API';
 
 const AddBio = ({ navigation }) => {
-    const [{ token }] = useAppData()
+    const [{ userid }] = useAppData()
     const [loading, setLoading] = useState(false)
     const [bio, setBio] = useState('')
 
     const onSubmitHandler = (values) => {
         if (bio.length > 10) {
             let body = {
-                bio: bio
-            }
-            setLoading(true)
-            AddBiography(body, token, onResponse, onError)
+                bio: bio,
+            };
+            setLoading(true);
+            AddBiography(body, userid, onResponse, onError);
         } else {
             Alert.alert('Add Bio "minimum 10 character"')
         }
     }
 
     const onResponse = (res) => {
-        // setLogin(res?.data?.token)
-        setLoading(false)
+        setLoading(false);
+        setRefreshToken(res.data.refresh);
         Toast.show({
-            position: 'top',
-            type: 'success',
-            text1: res?.message,
+          position: "top",
+          type: "success",
+          text1: res.message,
         });
-        navigation.replace('Login')
-    }
-
-    const onError = (error) => {
-        setLoading(false)
+        navigation.navigate("BottomTabs",{screen:"Home"})
+      };
+    
+      const onError = (error) => {
+        console.warn(error)
+        setLoading(false);
         Toast.show({
-            position: 'top',
-            type: 'error',
-            text1: error?.message,
+          position: "top",
+          type: "error",
+          text1: error.message,
         });
+      };
 
 
-    }
 
     return (
         <MainContainer>

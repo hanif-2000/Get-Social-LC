@@ -18,7 +18,7 @@ import useAppData, { useStore } from '../store';
 
 const AddName = ({ navigation }) => {
     const [loading, setLoading] = useState(false)
-    const [{ token }] = useAppData()
+    const [{ userID }] = useAppData()
 
     const userDataSchema = Yup.object().shape({
         firstName: Yup.string()
@@ -37,7 +37,7 @@ const AddName = ({ navigation }) => {
             last_name: values.lastName
         }
         setLoading(true)
-        onAddName(body,token,onResponse, onError)
+        onAddName(body,userID,onResponse, onError)
     }
 
     const onResponse = (res) => {
@@ -52,6 +52,7 @@ const AddName = ({ navigation }) => {
 
     const onError = (error) => {
         setLoading(false)
+        console.warn(error);
         Toast.show({
             position: 'top',
             type: 'error',

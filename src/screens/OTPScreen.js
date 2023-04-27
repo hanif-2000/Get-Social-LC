@@ -51,7 +51,7 @@ const OTPScreen = ({ navigation }) => {
         Toast.show({
             position: 'top',
             type: 'error',
-            text1: error?.response?.data?.message,
+            text1: error?.message,
         });
     }
 
