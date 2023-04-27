@@ -52,7 +52,7 @@ const Login = ({ navigation }) => {
         Toast.show({
             position: 'top',
             type: 'error',
-            text1: error?.message,
+            text1: error?.message?error?.message:error?.detail,
         });
     }
 
