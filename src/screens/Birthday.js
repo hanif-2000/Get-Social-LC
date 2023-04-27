@@ -11,6 +11,7 @@ import { AddDateofbirth } from '../utils/API';
 import useAppData, { useStore } from '../store';
 import Toast from 'react-native-toast-message';
 
+
 const Birthday = ({ navigation }) => {
     const [{ token }] = useAppData()
     const [date, setDate] = useState(new Date())
