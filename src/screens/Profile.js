@@ -11,7 +11,6 @@ import {
   Pressable,
   TextInput,
   Alert,
-  ScrollView,
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import {
@@ -104,11 +103,6 @@ const Profile = ({ navigation }) => {
 
 const onUniversityError = (error) => {
     setLoading(false)
-    // Toast.show({
-    //     position: 'top',
-    //     type: 'error',
-    //     text1: error?.message,
-    // });
 }
 
   const onSave = () => {
@@ -135,6 +129,7 @@ const onUniversityError = (error) => {
   };
 
   const onBioUpdateError = (error) => {
+    console.warn(error)
     setLoading(false);
     setEdit(false);
     Toast.show({
