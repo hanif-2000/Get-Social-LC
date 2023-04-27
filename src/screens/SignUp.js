@@ -17,7 +17,7 @@ import { onRegister } from '../utils/API';
 import { useStore } from '../store';
 
 const SignUp = ({ navigation }) => {
-    const { setUserID } = useStore()
+    const { setUserID ,setRefreshToken} = useStore()
     const [loading, setLoading] = useState(false)
     const [newShowIcon, setNewShowIcon] = useState(false);
     const [confiramShowIcon, setConfiramShowIcon] = useState(false);
@@ -44,6 +44,8 @@ const SignUp = ({ navigation }) => {
 
     const onResponse = (res) => {
         setUserID(res?.data?.user_id)
+        setRefreshToken(res?.data?.refresh)
+    
         setLoading(false)
         Toast.show({
             position: 'top',

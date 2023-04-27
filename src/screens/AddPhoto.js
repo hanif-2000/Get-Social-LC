@@ -50,6 +50,7 @@ const AddPhoto = ({ navigation }) => {
             name: String(Date.now()) + '.' + nameOfFile?.type.split('/')[1]
           });
         setLoading(true)
+
         AddPicture(formData, token, onResponse, onError)
     }
 
@@ -63,12 +64,15 @@ const AddPhoto = ({ navigation }) => {
         navigation.navigate('AddBio')
     }
     const onError = (err) => {
+        console.warn(err);
         setLoading(false)
         Toast.show({
             position: 'top',
             type: 'error',
             text1: err?.profile_image,
         });
+        navigation.navigate("AddBio");
+
     }
     return (
         <MainContainer>

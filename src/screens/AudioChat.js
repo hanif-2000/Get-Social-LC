@@ -135,10 +135,66 @@ const AudioChat = ({ navigation, route }) => {
                 </Text>
               </View>
             </View>
+            <Text
+              numberOfLines={2}
+              style={[styles.topCardText, { marginLeft: 20 }]}
+            >
+              {roomData?.description}
+            </Text>
           </View>
-          <Text
-            numberOfLines={2}
-            style={[styles.topCardText, { marginLeft: 20 }]}
+            <FlatList
+              data={dataList}
+              numColumns={4}
+              renderItem={({ item }) => (
+                <View style={styles.callImageContainer}>
+                  <Image
+                    source={item.img}
+                    style={[
+                      styles.callImage,
+                      {
+                        borderColor: !micDisable ? "#FFE75C" : "#fff",
+                        borderWidth: 1,
+                      },
+                    ]}
+                  />
+                  <TouchableOpacity
+                    disabled={item.iconOn === "microphone-slash" ? true : false}
+                    style={[
+                      styles.imageAddContainer,
+                      {
+                        backgroundColor:
+                          item.iconOn === "microphone-slash"
+                            ? COLORS.black
+                            : COLORS.purple,
+                      },
+                    ]}
+                    onPress={() => setMicDisable(!micDisable)}
+                  >
+                    <FontAwesome5
+                      name={item.iconOn}
+                      size={10}
+                      color={COLORS.white}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+            />
+          <View style={{ flexDirection: "row" }}>
+            <View
+              style={[
+                styles.bottmLineContainer,
+                { backgroundColor: COLORS.lightGray },
+              ]}
+            />
+            <View style={styles.bottmLineContainer} />
+          </View>
+          <Text style={styles.comments}>Comments</Text>
+          <LinearGradient
+            style={styles.linearGradient}
+            colors={[COLORS.skyBlue, COLORS.navyBlue]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+
           >
             {roomData?.description}
           </Text>

@@ -12,7 +12,8 @@ import useAppData, { useStore } from '../store';
 import Toast from 'react-native-toast-message';
 
 const Birthday = ({ navigation }) => {
-    const [{ token }] = useAppData()
+    const [{ userID }] = useAppData()
+    const {setToken} =useStore()
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
     const [isDate, setIsDate] = useState(false)
@@ -29,26 +30,29 @@ const Birthday = ({ navigation }) => {
             year: String(date.getFullYear())
         }
         setLoading(true)
-        AddDateofbirth(data, token, onResponse, onError)
+        AddDateofbirth(data, userID, onResponse, onErrors)
+    }
+
+    const onErrors = (err) => {
+        setLoading(false)
+        Toast.show({
+            position: 'top',
+            type: 'error',
+            text1: err?.message,
+        });
     }
 
     const onResponse = (res) => {
         setLoading(false)
+        setToken(res.data.token);
+        navigation.navigate('University')
         Toast.show({
             position: 'top',
             type: 'success',
             text1: res?.message,
         });
-        navigation.navigate('University')
     }
-    const onError = (err) => {
-        setLoading(false)
-        Toast.show({
-            position: 'top',
-            type: 'error',
-            text1: err?.data?.message,
-        });
-    }
+   
     return (
         <MainContainer>
             <View style={styles.logoContainer}>

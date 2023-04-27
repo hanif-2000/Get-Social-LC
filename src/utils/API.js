@@ -95,10 +95,10 @@ export const VerifyEmail = (uid, onResponse, onError) => {
 }
 //================= After login/Register API Steps -==========
 // 1. Add Name API -
-export const onAddName = (body, token, onResponse, onError) => {
+export const onAddName = (body, userID, onResponse, onError) => {
     axios({
         method: 'POST',
-        url: `${BASE_URL}add-name/${token}/`,
+        url: `${BASE_URL}add-name/${userID}/`,
         data: body,
         headers: headers
     })
@@ -110,10 +110,10 @@ export const onAddName = (body, token, onResponse, onError) => {
         });
 }
 // 2. Add Date of birth -
-export const AddDateofbirth = (formData, token, onResponse, onError) => {
+export const AddDateofbirth = (formData, userID, onResponse, onError) => {
     axios({
         method: 'POST',
-        url: `${BASE_URL}add-dateofbirth/${token}/`,
+        url: `${BASE_URL}add-dateofbirth/${userID}/`,
         data: formData,
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -132,9 +132,8 @@ export const AddPicture = (body, token, onResponse, onError) => {
         method: 'POST',
         url: `${BASE_URL}/add-picture/${token}/`,
         data: body,
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        }
+        headers: headers,
+
     })
         .then(function (response) {
             onResponse(response?.data);
@@ -144,10 +143,10 @@ export const AddPicture = (body, token, onResponse, onError) => {
         });
 }
 // 4. Add University API -
-export const AddUniversity = (body, token, onResponse, onError) => {
+export const AddUniversity = (body, userID, onResponse, onError) => {
     axios({
         method: 'POST',
-        url: `${BASE_URL}add-university/${token}/`,
+        url: `${BASE_URL}add-university/${userID}/`,
         data: body,
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -157,26 +156,24 @@ export const AddUniversity = (body, token, onResponse, onError) => {
             onResponse(response?.data);
         })
         .catch(error => {
-            onError(error?.response?.data);
+            onError(error);
         });
 }
 // 5. Add Biography API -
-export const AddBiography = (body, token, onResponse, onError) => {
+export const AddBiography = (body, userid, onResponse, onError) => {
     axios({
-        method: 'POST',
-        url: `${BASE_URL}add-biography/${token}/`,
-        data: body,
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        }
+      method: "POST",
+      url: `${BASE_URL}add-biography/${userid}/`,
+      data: body,
+      headers: headers,
     })
-        .then(function (response) {
-            onResponse(response?.data);
-        })
-        .catch(error => {
-            onError(error?.response?.data);
-        });
-}
+      .then(function (response) {
+        onResponse(response.data);
+      })
+      .catch((error) => {
+        onError(error.response.data);
+      });
+  };
 // 6. Get User detail API -
 export const GetUserDetail = (token, onResponse, onError) => {
     axios({

@@ -11,7 +11,7 @@ import { AddUniversity, getUniversity } from '../utils/API';
 import { Dropdown } from 'react-native-element-dropdown';
 
 const University = ({ navigation }) => {
-    const [{ token }] = useAppData()
+    const [{ token,userID }] = useAppData()
     const [loading, setLoading] = useState(false)
     const [universityName, setUniversityName] = useState()
     const [universityId, setUniversityId] = useState()
@@ -38,22 +38,23 @@ const University = ({ navigation }) => {
 
     const onError = (error) => {
         setLoading(false)
-        Toast.show({
-            position: 'top',
-            type: 'error',
-            text1: error?.message,
-        });
+        console.warn(error);
     }
 
     const onSubmit = () => {
         let data = {
             university: universityId
         }
-        AddUniversity(data, token, onAddResponse, onAddError)
+        AddUniversity(data, userID, onAddResponse, onAddError)
     }
 
     const onAddResponse = (res) => {
         setLoading(false)
+        Toast.show({
+            position: 'top',
+            type: 'success',
+            text1: res?.message,
+        });
         navigation.navigate('AddPhoto')
     }
 
@@ -62,7 +63,7 @@ const University = ({ navigation }) => {
         Toast.show({
             position: 'top',
             type: 'error',
-            text1: error?.message,
+            text1: 'Samthing want wrong'
         });
     }
 
