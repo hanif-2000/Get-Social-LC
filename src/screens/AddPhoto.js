@@ -13,7 +13,7 @@ import useAppData from '../store';
 import Toast from 'react-native-toast-message';
 
 const AddPhoto = ({ navigation }) => {
-    const [{ token }] = useAppData()
+    const [{ token,userID }] = useAppData()
     const [nameOfFile, setNameOfFile] = useState(null)
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false)
@@ -72,7 +72,6 @@ const AddPhoto = ({ navigation }) => {
             text1: err?.profile_image,
         });
         navigation.navigate("AddBio");
-
     }
     return (
         <MainContainer>
