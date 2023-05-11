@@ -16,7 +16,7 @@ import useAppData,{useStore} from '../store';
 
 const OTPScreen = ({ navigation }) => {
     const [{ userID }] = useAppData()
-    const { setToken } = useStore()
+    const { setToken ,setProfileToken} = useStore()
     const OTPRef = useRef(null);
     const [clearOTP, setClearOTP] = useState(false);
     const [otp, setOtp] = useState('');
@@ -37,12 +37,12 @@ const OTPScreen = ({ navigation }) => {
     };
     const onResponse = (res) => {
         setLoading(false)
-        setToken(res.token)
         Toast.show({
             position: 'top',
             type: 'success',
             text1: res?.message,
         });
+        setProfileToken(res.token);
         navigation.navigate('AddName')
     }
 

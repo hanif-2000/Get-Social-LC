@@ -6,11 +6,13 @@ import { COLORS, IMAGE, SIZE } from '../common/theme'
 import CustomButton from '../common/CustomButton';
 import MainContainer from '../common/MainContainer';
 import Toast from 'react-native-toast-message';
-import useAppData, { useStore } from '../store';
+import useAppData,{useStore} from '../store';
 import { AddBiography } from '../utils/API';
+import { setLogin } from '../store/LocalStor';
 
 const AddBio = ({ navigation }) => {
-    const [{ userid }] = useAppData()
+    const [{ userID }] = useAppData()
+    const {} =useStore()
     const [loading, setLoading] = useState(false)
     const [bio, setBio] = useState('')
 
@@ -20,7 +22,7 @@ const AddBio = ({ navigation }) => {
                 bio: bio,
             };
             setLoading(true);
-            AddBiography(body, userid, onResponse, onError);
+            AddBiography(body, userID, onResponse, onError);
         } else {
             Alert.alert('Add Bio "minimum 10 character"')
         }
@@ -28,17 +30,16 @@ const AddBio = ({ navigation }) => {
 
     const onResponse = (res) => {
         setLoading(false);
-        setRefreshToken(res.data.refresh);
         Toast.show({
           position: "top",
           type: "success",
           text1: res.message,
         });
-        navigation.navigate("BottomTabs",{screen:"Home"})
+        setLogin(res?.data?.token)
+        navigation.navigate('MyTabs')
       };
     
       const onError = (error) => {
-        console.warn(error)
         setLoading(false);
         Toast.show({
           position: "top",
@@ -63,6 +64,7 @@ const AddBio = ({ navigation }) => {
                 maxFontSizeMultiplier={3}
                 numberOfLines={3}
                 onChangeText={(t) => setBio(t)}
+                value={bio}
             />
             <CustomButton onPress={() => onSubmitHandler()} title={'All set.'} />
             <Spinner

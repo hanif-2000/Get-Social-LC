@@ -34,14 +34,7 @@ const Birthday = ({ navigation }) => {
         AddDateofbirth(data, userID, onResponse, onErrors)
     }
 
-    const onErrors = (err) => {
-        setLoading(false)
-        Toast.show({
-            position: 'top',
-            type: 'error',
-            text1: err?.message,
-        });
-    }
+
 
     const onResponse = (res) => {
         setLoading(false)
@@ -53,7 +46,15 @@ const Birthday = ({ navigation }) => {
             text1: res?.message,
         });
     }
-   
+
+    const onErrors = (err) => {
+        setLoading(false)
+        Toast.show({
+            position: 'top',
+            type: 'error',
+            text1: err?.message,
+        });
+    }
     return (
         <MainContainer>
             <View style={styles.logoContainer}>
