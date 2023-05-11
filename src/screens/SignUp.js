@@ -45,7 +45,6 @@ const SignUp = ({ navigation }) => {
     const onResponse = (res) => {
         setUserID(res?.data?.user_id)
         setRefreshToken(res?.data?.refresh)
-    
         setLoading(false)
         Toast.show({
             position: 'top',

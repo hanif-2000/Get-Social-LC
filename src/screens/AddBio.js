@@ -8,10 +8,11 @@ import MainContainer from '../common/MainContainer';
 import Toast from 'react-native-toast-message';
 import useAppData,{useStore} from '../store';
 import { AddBiography } from '../utils/API';
+import { setLogin } from '../store/LocalStor';
 
 const AddBio = ({ navigation }) => {
     const [{ userID }] = useAppData()
-    const {setRefreshToken} =useStore()
+    const {} =useStore()
     const [loading, setLoading] = useState(false)
     const [bio, setBio] = useState('')
 
@@ -29,13 +30,12 @@ const AddBio = ({ navigation }) => {
 
     const onResponse = (res) => {
         setLoading(false);
-        setRefreshToken(res.data.refresh);
         Toast.show({
           position: "top",
           type: "success",
           text1: res.message,
         });
-        console.warn(res.data);
+        setLogin(res?.data?.token)
         navigation.navigate('MyTabs')
       };
     

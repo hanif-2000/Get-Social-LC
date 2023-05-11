@@ -8,13 +8,6 @@ var getRegToken = async function () {
   return await AsyncStorage.getItem('token');
 };
 
-var setUserNames = async function (userName) {
-  await AsyncStorage.setItem('userName', userName);
-};
-var getUserNames = async function () {
-  return await AsyncStorage.getItem('userName');
-};
-
 var setLogin= async function (checkLogin) {
   await AsyncStorage.setItem('checkLogin', checkLogin);
 };

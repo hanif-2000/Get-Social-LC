@@ -15,7 +15,7 @@ import useAppData, { useStore } from '../store';
 const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false)
-  const [{ accessToken, fecthRooms }] = useAppData()
+  const [{fecthRooms }] = useAppData()
   const { setRoomData, setFecthRooms } = useStore()
   const [roomData, setRoomDatas] = useState([])
   const [id, setID] = useState()
@@ -32,7 +32,7 @@ const Home = ({ navigation }) => {
 
   const roomsHandler = () => {
     setLoading(true)
-    getRoomApi(accessToken, onResponse, onError)
+    getRoomApi( onResponse, onError)
   }
   const onResponse = (res) => {
     setRoomData(res);
@@ -43,6 +43,7 @@ const Home = ({ navigation }) => {
 
   const onError = (e) => {
     setLoading(false)
+    console.warn(e);
   }
 
   return (
