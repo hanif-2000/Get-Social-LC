@@ -15,7 +15,7 @@ export const onRegister = (body, onResponse, onError) => {
       onResponse(response);
     })
     .catch((error) => {
-      onError(error);
+      onError(error.response.data);
     });
 };
 // 2. Login API -
