@@ -8,6 +8,7 @@ import {
   Pressable,
   TextInput,
   Alert,
+  KeyboardAvoidingView,
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import AntDesign from "react-native-vector-icons/FontAwesome";
@@ -30,9 +31,9 @@ import {
   GetUserDetail,
   updateBiography,
   updatePicture,
-  updateUserName
+  updateUserName,
 } from "../utils/API";
-import CustomInput from "../common/CustomInput";
+import { setLogin, setRegToken } from "../store/LocalStor";
 
 const Profile = ({ navigation }) => {
   const [{ accessToken, userID }] = useAppData();
@@ -43,9 +44,6 @@ const Profile = ({ navigation }) => {
   const [edit, setEdit] = useState(false);
   const [bio, setBio] = useState();
   const [isSave, setSave] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
   const [more, setMore] = useState(false);
 
   useFocusEffect(
@@ -95,8 +93,6 @@ const Profile = ({ navigation }) => {
     setLoading(false);
     setUserData(res);
     setBio(res?.bio);
-    setFirstName(res?.first_name);
-    setLastName(res?.last_name);
   };
 
   const onError = (error) => {
@@ -170,69 +166,6 @@ const Profile = ({ navigation }) => {
     });
   };
 
-  const upDateName = () => {
-    let body = {
-      first_name: firstName,
-      last_name: lastName,
-    };
-    setLoading(true);
-    updateUserName(body, userID, nameRes, nameErr);
-  };
-  const nameRes = (res) => {
-    setLoading(false);
-    Modalclose();
-    Toast.show({
-      position: "top",
-      type: "success",
-      text1: res?.message,
-    });
-    onFocus();
-  };
-
-  const nameErr = (err) => {
-    setLoading(false);
-    console.warn(err);
-    Modalclose();
-    Toast.show({
-      position: "top",
-      type: "error",
-      text1: err?.message,
-    });
-  };
-  const Modalclose = () => setVisible(false);
-  const Modalopen = () => setVisible(true);
-
-  const ModalData = () => {
-    return (
-      <View
-        style={{
-          width: wp(80),
-          padding: 20,
-          backgroundColor: COLORS.white,
-          alignSelf: "center",
-          borderRadius: 10,
-        }}
-      >
-        <CustomInput
-          onChangeText={(val) => {
-            setFirstName(val);
-          }}
-          value={firstName}
-          placeholder="First Name"
-        />
-        <CustomInput
-          inputStyle={{ marginTop: 20 }}
-          onChangeText={(val) => {
-            setLastName(val);
-          }}
-          value={lastName}
-          placeholder="Last Name"
-        />
-        <CustomButton onPress={upDateName} title={"Save"} />
-      </View>
-    );
-  };
-
   return (
     <MainContainer>
       <View style={styles.imageContainer}>
@@ -262,7 +195,8 @@ const Profile = ({ navigation }) => {
           {userData?.first_name} {userData?.last_name}
         </Text>
         <TouchableOpacity
-          onPress={Modalopen}
+        onPress={() => navigation.navigate('AddName',{data:userData})}
+          // onPress={Modalopen}
           style={{ position: "absolute", right: 10, top: 3 }}
         >
           <Entypo name="edit" size={16} />
@@ -270,12 +204,27 @@ const Profile = ({ navigation }) => {
       </View>
 
       <View>
-      <Text style={[styles.nameText, { fontSize: SIZE.M }]}>
-        {userData?.university_name}
-      </Text>
-      <TouchableOpacity onPress={() => navigation.navigate('University',{keys:userData?.university_name})} style={{position:'absolute',right:0,top:2}}>
-        <Text style={{color:COLORS.purple,fontSize:SIZE.S,fontWeight:'600'}}>Edit</Text>
-      </TouchableOpacity>
+        <Text style={[styles.nameText, { fontSize: SIZE.M }]}>
+          {userData?.university_name}
+        </Text>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("University", {
+              data: userData,
+            })
+          }
+          style={{ position: "absolute", right: 0, top: 2 }}
+        >
+          <Text
+            style={{
+              color: COLORS.purple,
+              fontSize: SIZE.S,
+              fontWeight: "600",
+            }}
+          >
+            Edit
+          </Text>
+        </TouchableOpacity>
       </View>
       <Text style={styles.about}>About Me</Text>
       {!edit ? (
@@ -339,7 +288,11 @@ const Profile = ({ navigation }) => {
       )}
       <CustomButton
         disable={edit}
-        onPress={() => Alert.alert("in-progress")}
+        onPress={() => {
+          setLogin("");
+          setRegToken("");
+          navigation.navigate("Login");
+        }}
         buttonStyle={{ position: "absolute", bottom: 20, width: "100%" }}
         title={"Logout"}
       />
@@ -374,23 +327,6 @@ const Profile = ({ navigation }) => {
             </Pressable>
           </View>
         </View>
-      </Modal>
-
-      <Modal
-        style={{ margin: 0 }}
-        backdropColor="rgba(0,0,0,0.5)"
-        backdropOpacity={1}
-        animationIn="zoomInDown"
-        animationOut="zoomOutUp"
-        animationInTiming={1500}
-        animationOutTiming={1500}
-        backdropTransitionInTiming={600}
-        backdropTransitionOutTiming={600}
-        onBackButtonPress={Modalclose}
-        onBackdropPress={Modalclose}
-        isVisible={visible}
-      >
-        <ModalData />
       </Modal>
       <Spinner
         color={COLORS.purple}

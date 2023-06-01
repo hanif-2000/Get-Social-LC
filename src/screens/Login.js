@@ -69,7 +69,7 @@ const Login = ({ navigation }) => {
         <Text style={styles.topText}>Get Social</Text>
       </View>
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ email: "student5@yopmail.com", password: "12345678" }}
         validationSchema={loginSchema}
         onSubmit={(values) => onSubmitHandler(values)}
       >

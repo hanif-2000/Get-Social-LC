@@ -15,17 +15,13 @@ import { Dropdown } from "react-native-element-dropdown";
 import { getRegToken } from "../store/LocalStor";
 
 const University = ({ navigation, route }) => {
-  let Route = route.key;
+  
+  let id =(route?.params?.data?.id);
   const [{ token, userID }] = useAppData();
   const [loading, setLoading] = useState(false);
   const [universityName, setUniversityName] = useState();
   const [universityId, setUniversityId] = useState();
-  const [universityList, setUniversityList] = useState([
-    {
-      id: 1,
-      name: "University of Washington",
-    },
-  ]);
+  const [universityList, setUniversityList] = useState([]);
 
   useEffect(() => {
     onFocus();
@@ -48,11 +44,19 @@ const University = ({ navigation, route }) => {
   };
 
   const onSubmit = () => {
-    let data = {
-      university: universityId,
-    };
-    setLoading(true);
-    AddUniversity(data, userID, onAddResponse, onAddError);
+    if (route.params) {
+      let body = {
+        university: universityId,
+      };
+      setLoading(true);
+      editUniversity(body, id, onResEdit, onErrEdit);
+    } else {
+      let data = {
+        university: universityId,
+      };
+      setLoading(true);
+      AddUniversity(data, userID, onAddResponse, onAddError);
+    }
   };
 
   const onAddResponse = (res) => {
@@ -74,13 +78,6 @@ const University = ({ navigation, route }) => {
     });
   };
 
-  const EditUniversity = (e) => {
-    let body = {
-      university: universityId,
-    };
-    setLoading(true);
-    editUniversity(body, userID, onResEdit, onErrEdit);
-  };
   const onResEdit = (res) => {
     setLoading(false);
     Toast.show({
@@ -140,11 +137,7 @@ const University = ({ navigation, route }) => {
       </View>
       <CustomButton
         onPress={() => {
-          if (Route) {
-            EditUniversity();
-          } else {
-            onSubmit();
-          }
+          onSubmit();
         }}
         title={"Let’s set up your profile!"}
       />

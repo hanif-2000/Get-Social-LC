@@ -17,4 +17,4 @@ var getLogin = async function () {
 
 
 
-export {setRegToken, getRegToken,setUserNames ,getUserNames,setLogin,getLogin};
+export {setRegToken, getRegToken,setLogin,getLogin};
